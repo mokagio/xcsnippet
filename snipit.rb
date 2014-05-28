@@ -21,23 +21,28 @@ def rename_snippet(path)
 end
 
 path = "."
+should_quit = false
+while not should_quit
+  puts "Available snippets:"
+  snippets = Dir[path + "/**/*.codesnippet"]
+  snippets.each_with_index do |snippet_file, index|
+    snippet = Plist::parse_xml snippet_file
+    puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet["IDECodeSnippetTitle"]} )"
+  end
 
-puts "Available snippets:"
-snippets = Dir[path + "/**/*.codesnippet"]
-snippets.each_with_index do |snippet_file, index|
-  snippet = Plist::parse_xml snippet_file
-  puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet["IDECodeSnippetTitle"]} )"
-end
+  puts "\nType the number of the snippet you want to edit: "
+  user_input = $stdin.gets.chomp!
+  if user_input =~ /^\d+$/ 
+    user_input = Integer(user_input)
+  end
 
-puts "\nType the number of the snippet you want to edit: "
-user_input = $stdin.gets.chomp!
-if user_input =~ /^\d+$/ 
-  user_input = Integer(user_input)
-end
+  case user_input
+  when 1..snippets.length
+    rename_snippet snippets[user_input - 1] 
+  else
+    puts "Invalid input."
+    should_quit = true
+  end
 
-case user_input
-when 1..snippets.length
-  rename_snippet snippets[user_input - 1] 
-else
-  puts "Invalid input."
+  puts
 end
