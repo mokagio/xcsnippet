@@ -9,11 +9,20 @@ def rename_snippet(path)
   puts "Title: #{title}"
   puts "Content:\n#{content}"
 
-  puts "\nNew name: "
+  suggested_name = title.downcase.rstrip.gsub(" ", "-")
+
+  puts "\nNew name: [#{suggested_name}]"
   user_input = $stdin.gets.chomp!
 
-  new_path = File.dirname(path) + "/" + user_input + ".codesnippet"
-  snippet["IDECodeSnippetIdentifier"] = user_input
+  file_name = ""
+  if user_input != ""
+    file_name = user_input
+  else
+    file_name = suggested_name
+  end
+
+  new_path = File.dirname(path) + "/" + file_name + ".codesnippet"
+  snippet["IDECodeSnippetIdentifier"] = file_name
 
   Plist::Emit::save_plist snippet, path
   
