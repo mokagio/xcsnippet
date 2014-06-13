@@ -30,13 +30,26 @@ while not should_quit
     puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet["IDECodeSnippetTitle"]} )"
   end
 
-  puts "\nType the number of the snippet you want to edit: "
+  puts "\nType the number of the snippet you want to edit or all to edit all the snippet wiht an Xcode generated name: "
   user_input = $stdin.gets.chomp!
   if user_input =~ /^\d+$/ 
     user_input = Integer(user_input)
   end
 
   case user_input
+  when "all"
+    matching = []
+    regexp = Regexp.new /(\w|\d){8}(-)((\w|\d){4}(-)){3}(\w|\d){12}/
+    snippets.each do |snippet|
+      if regexp.match snippet
+        matching.push snippet
+      end
+    end
+
+    matching.each do |snippet|
+      rename_snippet snippet
+    end
+    should_quit = true
   when 1..snippets.length
     rename_snippet snippets[user_input - 1] 
   else
