@@ -1,6 +1,8 @@
 require "plist"
 require "fileutils"
 
+snippets_path = Dir.home + "/Library/Developer/Xcode/UserData/CodeSnippets"
+
 def rename_snippet(path)
   snippet = Plist::parse_xml path
   title = snippet["IDECodeSnippetTitle"]
@@ -29,11 +31,10 @@ def rename_snippet(path)
   FileUtils.mv path, new_path
 end
 
-path = "."
 should_quit = false
 while not should_quit
   puts "Available snippets:"
-  snippets = Dir[path + "/**/*.codesnippet"]
+  snippets = Dir[snippets_path + "/*.codesnippet"]
   snippets.each_with_index do |snippet_file, index|
     snippet = Plist::parse_xml snippet_file
     puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet["IDECodeSnippetTitle"]} )"
