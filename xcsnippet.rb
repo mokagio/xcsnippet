@@ -1,12 +1,16 @@
 require "plist"
 require "fileutils"
 
+@title_key = "IDECodeSnippetTitle"
+@content_key = "IDECodeSnippetContents"
+@identifier_key = "IDECodeSnippetIdentifier"
+
 snippets_path = Dir.home + "/Library/Developer/Xcode/UserData/CodeSnippets"
 
 def rename_snippet(path)
   snippet = Plist::parse_xml path
-  title = snippet["IDECodeSnippetTitle"]
-  content = snippet["IDECodeSnippetContents"]
+  title = snippet[@title_key]
+  content = snippet[@content_key]
   puts "Snippet #{File.basename path}"
   puts "Title: #{title}"
   puts "Content:\n#{content}"
@@ -24,7 +28,7 @@ def rename_snippet(path)
   end
 
   new_path = File.dirname(path) + "/" + file_name + ".codesnippet"
-  snippet["IDECodeSnippetIdentifier"] = file_name
+  snippet[@identifier_key] = file_name
 
   Plist::Emit::save_plist snippet, path
   
@@ -37,7 +41,7 @@ while not should_quit
   snippets = Dir[snippets_path + "/*.codesnippet"]
   snippets.each_with_index do |snippet_file, index|
     snippet = Plist::parse_xml snippet_file
-    puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet["IDECodeSnippetTitle"]} )"
+    puts "#{index + 1}) #{File.basename snippet_file} ( #{snippet[@identifier_key]} )"
   end
 
   puts "\nType the number of the snippet you want to edit or all to edit all the snippet wiht an Xcode generated name: "
