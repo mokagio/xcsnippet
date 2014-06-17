@@ -7,7 +7,13 @@ require "fileutils"
 
 snippets_path = Dir.home + "/Library/Developer/Xcode/UserData/CodeSnippets"
 
+def clear_screen
+  system "clear"
+end
+
 def rename_snippet(path)
+  clear_screen()
+  
   snippet = Plist::parse_xml path
   title = snippet[@title_key]
   content = snippet[@content_key]
@@ -37,6 +43,8 @@ end
 
 should_quit = false
 while not should_quit
+  clear_screen()
+
   puts "Available snippets:"
   snippets = Dir[snippets_path + "/*.codesnippet"]
   snippets.each_with_index do |snippet_file, index|
