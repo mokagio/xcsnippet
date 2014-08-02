@@ -112,7 +112,7 @@ def copy_snippets
       puts "Snippet name #{snippet_name} exists already"
     else
       FileUtils.cp snippet_path, new_snippet_path
-      puts "Added #{} to your Xcode snippets"
+      puts "Added #{snippet_name} to your Xcode snippets"
     end
   end
 end
