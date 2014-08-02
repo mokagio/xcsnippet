@@ -89,19 +89,16 @@ end
 def copy_snippets
   clear_screen()
 
-  # puts "Enter source folder absolute path"
-  # source = $stdin.gets.chomp!
-  # puts source
-  #
-  # if !Dir.exists? source
-  #   puts "The folder doesn't exist"
-  #   return -1
-  # end
-  #
-  # puts source + "/*" + @snippets_extension
+  puts "Enter source folder absolute path"
+  source = $stdin.gets.chomp!
+  puts source
 
-  source = File.dirname(__FILE__) + "/example-snippets"
+  if !Dir.exists? source
+    puts "The folder doesn't exist"
+    return -1
+  end
 
+  clear_screen()
   puts "Copying all snippets from #{source} to #{@snippets_path}"
 
   Dir[source + "/*" + @snippets_extension].each do |snippet_path|
