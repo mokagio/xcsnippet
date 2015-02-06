@@ -120,6 +120,8 @@ def copy_snippets
       puts "Added #{snippet_name} to your Xcode snippets"
     end
   end
+
+  puts "All snippets copied. Restart Xcode an enjoy."
 end
 
 puts "Welcome to xcsnippet :)"
