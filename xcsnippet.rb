@@ -89,9 +89,12 @@ end
 def copy_snippets
   clear_screen()
 
-  puts "Enter source folder absolute path"
+  pwd = Dir.pwd
+  puts "Enter source folder absolute path [#{pwd}]"
   source = $stdin.gets.chomp!
-  puts source
+  if source == ""
+    source = pwd
+  end
 
   if !Dir.exists? source
     puts "The folder doesn't exist"
