@@ -104,6 +104,11 @@ def copy_snippets
   clear_screen()
   puts "Copying all snippets from #{source} to #{@snippets_path}"
 
+  unless Dir.exists? @snippets_path
+    FileUtils.mkdir @snippets_path
+    puts "I just made an Xcode user snippets folder for you ;)"
+  end
+
   Dir[source + "/*" + @snippets_extension].each do |snippet_path|
     # check for snippet in default folder
     snippet_name = File.basename snippet_path
